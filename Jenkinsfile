@@ -43,15 +43,15 @@ pipeline{
         stage('build'){
             agent any
             steps{
-                sh "docker build -t murat/handson-jenkins ."
-                sh "docker tag murat/handson-jenkins:latest 618730488553.dkr.ecr.us-east-1.amazonaws.com/murat/handson-jenkins:latest"
+                sh "docker build -t murat/jenkins-handson ."
+                sh "docker tag murat/jenkins-handson:latest 618730488553.dkr.ecr.us-east-1.amazonaws.com/murat/jenkins-handson:latest"
             }
         }
         stage('push'){
             agent any
             steps{
                 sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 618730488553.dkr.ecr.us-east-1.amazonaws.com"
-                sh "docker push 618730488553.dkr.ecr.us-east-1.amazonaws.com/murat/handson-jenkins:latest"
+                sh "docker push 618730488553.dkr.ecr.us-east-1.amazonaws.com/murat/jenkins-handson:latest"
             }
         }    
   }
