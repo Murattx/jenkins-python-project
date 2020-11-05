@@ -10,18 +10,18 @@ pipeline{
     }
     stages{
         stage("compile"){
-        agent{
-            docker{
-            image 'python:alpine'
+            agent{
+                docker{
+                image 'python:alpine'
+                }
             }
-        }
-        steps{
-            withEnv(["HOME=${env.WORKSPACE}"]) {
-            sh 'pip install -r requirements.txt'
-            sh 'python -m py_compile src/*.py'
-            stash(name: 'compilation_result', includes: 'src/*.py*')
+            steps{
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                sh 'pip install -r requirements.txt'
+                sh 'python -m py_compile src/*.py'
+                stash(name: 'compilation_result', includes: 'src/*.py*')
+                }
             }
-        }
         }
         stage('test') {
                 agent {
@@ -45,6 +45,13 @@ pipeline{
             steps{
                 sh "docker build -t murat/handson-jenkins ."
                 sh "docker tag murat/handson-jenkins:latest 618730488553.dkr.ecr.us-east-1.amazonaws.com/murat/handson-jenkins:latest"
+            }
+        }
+        stage('push'){
+            agent any
+            steps{
+                sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 618730488553.dkr.ecr.us-east-1.amazonaws.com"
+                sh "docker push 618730488553.dkr.ecr.us-east-1.amazonaws.com/matt/handson-jenkins:latest"
             }
         }    
   }
