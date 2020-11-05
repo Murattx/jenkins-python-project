@@ -40,5 +40,12 @@ pipeline{
                     }
                 }
             }
+        stage('build'){
+            agent any
+            steps{
+                sh "docker build -t murat/handson-jenkins ."
+                sh "docker tag murat/handson-jenkins:latest 618730488553.dkr.ecr.us-east-1.amazonaws.com/murat/handson-jenkins:latest"
+            }
+        }    
   }
 }
