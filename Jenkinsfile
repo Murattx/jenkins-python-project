@@ -3,7 +3,7 @@ pipeline{
     environment {
         MYSQL_DATABASE_HOST = "database-1.cf2umiot7spx.us-east-1.rds.amazonaws.com"
         MYSQL_DATABASE_PASSWORD = "Clarusway"
-        MYSQL_DATABASE_USER = "admin"
+        MYSQL_DATABASE_USER = "adminadmin"
         MYSQL_DATABASE_DB = "phonebook"
         MYSQL_DATABASE_PORT = 3306
     }
